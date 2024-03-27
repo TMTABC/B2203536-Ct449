@@ -12,6 +12,7 @@ exports.create = async(req,res,next)=>{
         const document = await contactService.create(req.body);
         return res.send(document);
     }catch(err){
+        console.log(err)
         return next(new ApiError(500,"A error occurred while creating the contact"));
     };
 }

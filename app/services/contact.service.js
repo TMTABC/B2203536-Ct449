@@ -4,16 +4,16 @@ class ContactService{
         this.Contact = client.db().collection("contacts");
     }
     extractContactData(payload){
-       const contact={
+       const contact = {
             name:payload.name,
             email:payload.email,
             address:payload.address,
             phone:payload.phone,
             favorite:payload.favorite,
-       } 
-       Objects.keys(contact).forEach(
+       };
+       Object.keys(contact).forEach(
            (key)=>contact[key] === undefined && delete contact[key]
-       )
+       );
        return contact;
     }
     async create(payload){
@@ -23,6 +23,7 @@ class ContactService{
             {$set:{favorite : contact.favorite === true}},
             {returnDocument:"after",upsert:true}
         )
+        
         return result;
     }
     async find(filter) {
@@ -43,7 +44,7 @@ class ContactService{
         const filter = {
             _id: ObjectId.isValid(id) ? new ObjectId(id) : null,
         };
-        const update = this.extractConactData(payload);
+        const update = this.extractContactData(payload);
         const result = await this.Contact.findOneAndUpdate(
             filter,
             { $set: update },
